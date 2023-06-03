@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://vivekagarwal.com"
+  baseUrl: "http://51.158.119.222:8080"
 };
 
 /*
