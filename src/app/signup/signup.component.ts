@@ -1,5 +1,8 @@
+import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { User } from '../user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -16,20 +19,22 @@ export class SignupComponent implements OnInit {
   userDetails = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
-    phoneNumber: new FormControl(''),
+    phone: new FormControl(''),
     password: new FormControl('')
   });
 
-  constructor() { }
+  constructor(public userService: UserService,private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    // Handle form submission here
-    // console.log('Form submitted:', this.name, this.email, this.phoneNumber, this.password);
-    // Add your logic for saving the form data or making an API request
-    console.log("submit");
+    var user: User = {name: this.userDetails.value.name, email: this.userDetails.value.email, phone: this.userDetails.value.phone, password: this.userDetails.value.password, role: "USER"}
+    this.userService.signup(user).subscribe((response: any) => {
+      if (response.error != null) {
+        this._snackBar.open(response.error, "close");
+      }
+    });
   }
 
 }

@@ -1,6 +1,7 @@
 export interface User {
-    name: String;
-    email: String;
-    password: String;
-    phoneNumber: String;
+    name?: String | null | undefined;
+    email?: String | null | undefined;
+    password?: String | null | undefined;
+    phone?: String | null | undefined;
+    role?: String | null | undefined;
 }
