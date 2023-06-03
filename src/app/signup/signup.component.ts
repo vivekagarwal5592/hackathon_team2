@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { User } from '../user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-signup',
@@ -10,11 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-
-  // name: string = "";
-  // email: string = "";
-  // phoneNumber: string = "";
-  // password: string = "";
 
   userDetails = new FormGroup({
     name: new FormControl(''),
@@ -33,6 +29,8 @@ export class SignupComponent implements OnInit {
     this.userService.signup(user).subscribe((response: any) => {
       if (response.error != null) {
         this._snackBar.open(response.error, "close");
+      } else {
+        // this.tabGroup.selectedIndex = 0;
       }
     });
   }
