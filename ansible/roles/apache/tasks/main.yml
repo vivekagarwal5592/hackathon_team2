@@ -1,0 +1,50 @@
+---
+    - name: Install prerequisites
+      become: yes
+      become_method: sudo
+      apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+      loop: [ 'aptitude' ]
+
+    - name: Install Apache
+      become: yes
+      become_method: sudo
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Enable SSL
+      become: yes
+      command: "{{ item }}"
+      with_items:
+      - a2enmod ssl
+      - a2enmod proxy
+      - a2enmod proxy_http
+      - a2enmod proxy_ajp
+      - a2enmod proxy_balancer
+      - a2enmod proxy_connect
+      - a2enmod proxy_html
+      notify: Reload Apache
+
+    - name: Set up Apache virtuahHost
+      become: yes
+      become_method: sudo
+      template:
+        src: "../files/apache.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+
+    - name: enabled mod_rewrite
+      become: yes
+      become_method: sudo
+      apache2_module: name=rewrite state=present
+      notify: Reload Apache
+
+    - name: "UFW - Allow HTTP on port {{ http_port }}"
+      become: yes
+      become_method: sudo
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+
+    - name: "apache2 listen on port {{http_port}}"
+      become: yes
+      lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen" line="Listen {{http_port}}" state=present
+      notify: Reload Apache

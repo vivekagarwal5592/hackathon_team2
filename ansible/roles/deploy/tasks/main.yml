@@ -1,0 +1,56 @@
+---
+
+- name: Create release directory
+  become: yes
+  become_method: sudo
+  file:
+    name: "{{ release_path }}"
+    state: directory
+
+- name: Create directory
+  become: yes
+  become_method: sudo
+  file:
+    name: "{{ current_path }}"
+    state: directory
+
+- name: Create Directory for FE
+  become: yes
+  become_method: sudo
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy FE build
+  become: yes
+  become_method: sudo
+  synchronize:
+    src: "{{ playbook_dir }}/../dist/hackathon_team2_fe/"
+    dest: "/var/www/{{ http_host }}"
+
+
+
+
+
+- name: symlink directories
+  become: yes
+  file:
+    src: "{{ release_path }}"
+    dest: "{{ current_path }}"
+    force: yes
+    state: link
+
+- name: Enable new site(Enable virtual host with a2ensite)
+  become: yes
+  become_method: sudo
+  shell: /usr/sbin/a2ensite {{ http_conf }}
+  notify: Reload Apache
+
+- name: Disable default Apache site
+  become: yes
+  become_method: sudo
+  shell: /usr/sbin/a2dissite 000-default.conf
+  when: disable_default
+  notify: Reload Apache
+
