@@ -3,6 +3,7 @@ export interface ParkingSlot {
     number: String;
     isAvailable: Boolean;
     engagedFor: Number;
+    userId: String;
 }
 
 // "id":101,

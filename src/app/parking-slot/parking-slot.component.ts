@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ParkingLotService } from '../parking-lot.service';
 
 @Component({
   selector: 'app-parking-slot',
@@ -27,17 +28,27 @@ export class ParkingSlotComponent implements OnInit {
 
   title = "seat-chart-generator";
 
+  parkingLotId: Number = 0;
+
   constructor(public dialogRef: MatDialogRef<ParkingSlotComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar) {
-
+    private _snackBar: MatSnackBar,
+    public parkingLotService: ParkingLotService) {
+    this.parkingLotId = this.data.parkingLotId;
   }
 
   ngOnInit(): void {
     //Process a simple bus layout
+    console.log("-------- : " + this.parkingLotId)
+    this.parkingLotService.getAllParkingSlotsForLot(this.parkingLotId)
+      .subscribe(response => {
+        console.log(response)
+        // response.forEach(eachElement => {
+
+        // })
+      })
     this.seatConfig = [
       {
-        seat_price: 250,
         seat_map: [
           {
             seat_label: "1",
@@ -75,7 +86,7 @@ export class ParkingSlotComponent implements OnInit {
       }
     ];
     this.processSeatChart(this.seatConfig);
-    this.blockSeats("7_1,7_2");
+    this.blockSeats("25");
   }
 
   public processSeatChart(map_data: any[]) {
@@ -92,7 +103,6 @@ export class ParkingSlotComponent implements OnInit {
         } else {
           row_label += item_map[item_map.length - 2].seat_label;
         }
-        row_label += " : Rs. " + map_data[__counter].seat_price;
 
         item_map.forEach((map_element: { seat_label: string; layout: string; }) => {
           var mapObj: any = {
@@ -109,7 +119,6 @@ export class ParkingSlotComponent implements OnInit {
           seatValArr.forEach((item: string) => {
             var seatObj: any = {
               key: map_element.seat_label + "_" + totalItemCounter,
-              price: map_data[__counter]["seat_price"],
               status: "available"
             };
 
@@ -129,7 +138,6 @@ export class ParkingSlotComponent implements OnInit {
             totalItemCounter++;
             mapObj["seats"].push(seatObj);
           });
-          console.log(" \n\n\n Seat Objects ", mapObj);
           this.seatmap.push(mapObj);
         });
       }
@@ -165,21 +173,15 @@ export class ParkingSlotComponent implements OnInit {
       for (let index = 0; index < seatsToBlockArr.length; index++) {
         var seat = seatsToBlockArr[index] + "";
         var seatSplitArr = seat.split("_");
-        console.log("Split seat: ", seatSplitArr);
         for (let index2 = 0; index2 < this.seatmap.length; index2++) {
           const element = this.seatmap[index2];
           if (element.seatRowLabel == seatSplitArr[0]) {
             var seatObj = element.seats[parseInt(seatSplitArr[1]) - 1];
             if (seatObj) {
-              console.log("\n\n\nFount Seat to block: ", seatObj);
               seatObj["status"] = "unavailable";
               this.seatmap[index2]["seats"][
                 parseInt(seatSplitArr[1]) - 1
               ] = seatObj;
-              console.log("\n\n\nSeat Obj", seatObj);
-              console.log(
-                this.seatmap[index2]["seats"][parseInt(seatSplitArr[1]) - 1]
-              );
               break;
             }
           }
