@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ParkingLotService } from '../parking-lot.service';
+import { UserStateService } from '../user-state.service';
 
 @Component({
   selector: 'app-parking-slot',
@@ -35,19 +36,24 @@ export class ParkingSlotComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ParkingSlotComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar,
-    public parkingLotService: ParkingLotService) {
+    public parkingLotService: ParkingLotService,
+    public userStateService: UserStateService) {
     this.parkingLotId = this.data.parkingLotId;
   }
 
+  userId: String | null | undefined = "";
+
   ngOnInit(): void {
     //Process a simple bus layout
+    this.userStateService.getUserDetails().subscribe(res => {
+      this.userId =  res.id;
+    })
     console.log("-------- : " + this.parkingLotId)
     this.parkingLotService.getAllParkingSlotsForLot(this.parkingLotId)
       .subscribe(response => {
         console.log(response)
         response.forEach(eachElement => {
             this.seats.push(eachElement);
-            this.seats.push(null);
         })
       })
    }
@@ -66,7 +72,8 @@ export class ParkingSlotComponent implements OnInit {
   }
 
   bookParking(parkingSlotId: Number) {
-    this.parkingLotService.parkVehicle(2, parkingSlotId, 150)
+    
+    this.parkingLotService.parkVehicle(Number(this.userId), parkingSlotId, 150)
     .subscribe((response: any) => {
         if (response?.error == null) {
           this._snackBar.open("Your car parking has been booked", "close");
