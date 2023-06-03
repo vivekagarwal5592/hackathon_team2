@@ -15,7 +15,13 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import { HttpClientModule } from '@angular/common/http';
 import { ParkingLotComponent } from './parking-lot/parking-lot.component';
-
+import { ParkingSlotComponent } from './parking-slot/parking-slot.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,6 +30,7 @@ import { ParkingLotComponent } from './parking-lot/parking-lot.component';
     SignupComponent,
     DialogComponent,
     ParkingLotComponent,
+    ParkingSlotComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,12 @@ import { ParkingLotComponent } from './parking-lot/parking-lot.component';
     MatInputModule,
     MatTabsModule,
     HttpClientModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

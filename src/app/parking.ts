@@ -1,8 +1,10 @@
 export interface Parking {
+    id: Number;
     name: String;
-    address: String;
-    totalCapacity: Number;
-    parkingSlotIds: String[];
+    address?: String;
+    totalCapacity?: Number;
+    availableSlots?: Number;
+    parkingSlotIds?: String[];
 }
 
 // "name":"Parking Lot A",
