@@ -1,13 +1,26 @@
-<div ngClass="parent-container">
-    <div class="image">
+<div>
+    <div class="header">
+        <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon favorite-icon"><mat-icon>menu</mat-icon></button>
+            <span>Smart Parking System</span>
+        </mat-toolbar>
     </div>
-    <div class="container">
-        <mat-card>
-            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-                <mat-tab label="Login"><app-login></app-login></mat-tab>
-                <mat-tab label="Sign Up"><app-signup></app-signup></mat-tab>
-            </mat-tab-group>
-        </mat-card>
+    <div *ngIf="!loginState">
+        <div class="image">
+        </div>
+        <div class="container">
+            <mat-card>
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                    <mat-tab label="Login"><app-login></app-login></mat-tab>
+                    <mat-tab label="Sign Up"><app-signup></app-signup></mat-tab>
+                </mat-tab-group>
+            </mat-card>
+        </div>
+    </div>
+    <div class="footer">
+        <mat-toolbar color="primary">
+            <span>Copyright 2023 © Smart Parking System Pvt. Ltd. All Rights Reserved.</span>
+        </mat-toolbar>
     </div>
 </div>
 <router-outlet></router-outlet>
