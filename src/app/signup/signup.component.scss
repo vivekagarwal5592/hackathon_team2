@@ -1,0 +1,24 @@
+.signup-container {
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+  }
+  
+  .signup-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: none;
+    // box-shadow: 5px 10px 10px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+  

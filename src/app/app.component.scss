@@ -1,0 +1,27 @@
+.image {
+    height: 100%;
+    width: 100%;
+    background: url('../assets/parking-lot-2.jpeg');
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    opacity: 0.5;
+    position: absolute;
+}
+
+.mat-tab-group {
+    margin-bottom: 48px;
+}
+
+.mat-card-box-shadow{
+   box-shadow: none; 
+}
+
+.container {
+    width: 25%;
+    height: 30%;
+    position: absolute;
+    right: 5%;
+    top: 30%;
+}
