@@ -3,6 +3,8 @@ import { Parking } from '../parking';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { ParkingSlotComponent } from '../parking-slot/parking-slot.component';
+import { UserStateService } from '../user-state.service';
+import { ParkingLotService } from '../parking-lot.service';
 
 @Component({
   selector: 'app-parking-lot',
@@ -12,15 +14,24 @@ import { ParkingSlotComponent } from '../parking-slot/parking-slot.component';
 })
 export class ParkingLotComponent implements OnInit {
 
-  allParkingLots: Parking[] = [{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10},{"id":1,"name":"Parking Lot A","address":"Wework, Andheri, Mumbai","totalCapacity":50,"availableSlots":50},{"id":2,"name":"Oberoi Mall","address":"Goregaon","totalCapacity":10,"availableSlots":10},{"id":3,"name":"Inorbit","address":"Malad","totalCapacity":10,"availableSlots":10}];
+  allParkingLots: Parking[] = [];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+    public userStateService: UserStateService,
+    public parkingLotService: ParkingLotService) { }
 
   ngOnInit(): void {
+    this.userStateService.setIsUserLoggedIn(true);
+    this.parkingLotService.getAllParkingLot()
+    .subscribe((each) => {
+      each.forEach(eachElement => {
+        this.allParkingLots.push(eachElement);
+      });
+    })
   }
 
   getAllParkingSlots(parkingLotId: Number) {
     console.log(parkingLotId);
-    this.dialog.open(ParkingSlotComponent);
+    this.dialog.open(ParkingSlotComponent, {width: "50%", data: {"parkingLotId": parkingLotId}});
   }
 }
