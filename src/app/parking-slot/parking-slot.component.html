@@ -5,17 +5,20 @@
   </h1>
 </div>
 <div class="col-lg-12 seat-container">
-    
-    <div class="seatrow container">
-      <div *ngFor="let seatobj of seats; let i = index">
-        <div *ngIf="seatobj != null">
-          <button mat-button [ngClass]="{'seat-available': seatobj.isAvailable}" (click)="bookParking(seatobj.id)">
+
+  <div class="seatrow container">
+    <div *ngFor="let seatobj of seats; let i = index">
+      <div *ngIf="seatobj != null">
+        <button mat-button [ngClass]="{'seat-available': seatobj.isAvailable, 'seat-unavailable': !seatobj.isAvailable}"
+          [disabled]="!seatobj.isAvailable" (click)="bookParking(seatobj.id)">
+          <span *ngIf="seatobj.isAvailable">
             {{seatobj.number}}
-          </button>
-          <button mat-button [ngClass]="{'seat-unavailable': !seatobj.isAvailable}" [disabled]="!seatobj.isAvailable" (click)="bookParking(seatobj.id)">
+          </span>
+          <span *ngIf="!seatobj.isAvailable" matTooltip="Remaining Time : {{seatobj.engagedFor}}">
             <mat-icon>directions_car</mat-icon>
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
+    </div>
   </div>
 </div>
