@@ -48,8 +48,7 @@ $seat-unavailable-color: white;
     border: 2px solid $seat-available-bg;
     padding: 0 20px;
     text-align: center;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 5px;
 }
 .seat-unavailable
 {
@@ -58,6 +57,7 @@ $seat-unavailable-color: white;
     border: 2px solid $seat-unavailable-bg;
     padding: 0 20px;
     text-align: center;
+  margin: 5px;
 }
 .seat-booked
 {
