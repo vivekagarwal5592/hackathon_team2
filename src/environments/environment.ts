@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://vivekagarwal.com"
+  baseUrl: "https://www.vivekagarwal.com",
+  // baseUrl: "http://localhost:8080"
 };
 
 /*
