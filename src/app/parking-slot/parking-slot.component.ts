@@ -71,17 +71,30 @@ export class ParkingSlotComponent implements OnInit {
     }
   }
 
-  bookParking(parkingSlotId: Number) {
+  bookParking(parkingSlotId: Number, isAvailable: boolean) {
     
-    this.parkingLotService.parkVehicle(Number(this.userId), parkingSlotId, 150)
-    .subscribe((response: any) => {
-        if (response?.error == null) {
-          this._snackBar.open("Your car parking has been booked", "close");
-          this.dialogRef.close();
-        } else {
-          this._snackBar.open(response.error, "close");
-        }
-    });
+    if (isAvailable) {
+      this.parkingLotService.parkVehicle(Number(this.userId), parkingSlotId, 150)
+      .subscribe((response: any) => {
+          if (response?.error == null) {
+            this._snackBar.open("Your car parking has been booked", "close");
+            this.dialogRef.close();
+          } else {
+            this._snackBar.open(response.error, "close");
+          }
+      });
+    } else {
+      this.parkingLotService.unParkVehicle(parkingSlotId)
+      .subscribe((response: any) => {
+          if (response?.error == null) {
+            this._snackBar.open("You have successfully unparked your vehicle", "close");
+            this.dialogRef.close();
+          } else {
+            this._snackBar.open(response.error, "close");
+          }
+      });
+    }
+    
     
   }
 }
