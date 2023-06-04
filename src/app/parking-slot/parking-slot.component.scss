@@ -14,7 +14,11 @@ $seat-unavailable-color: white;
 }
 .seatrow
 {
-    display: inline-flex;
+    flex-wrap: wrap;
+    flex-basis: 50%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
 }
 .pricing-label
 {
