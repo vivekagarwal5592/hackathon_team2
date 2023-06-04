@@ -5,29 +5,17 @@
   </h1>
 </div>
 <div class="col-lg-12 seat-container">
-  <div *ngFor="let seatrow of seatmap ">
-    <div class="col-12 pricing-label"
-      *ngIf="seatChartConfig?.showRowWisePricing && seatrow.seatPricingInformation != ''">
-      {{seatrow.seatPricingInformation}}
-    </div>
+    
     <div class="seatrow container">
-      <div *ngIf="seatChartConfig?.showRowsLabel">
-        <div class="row-label">{{seatrow.seatRowLabel}}</div>
-      </div>
-      <div *ngFor="let seatobj of seatrow.seats">
-        <div class="seat-item seat-space" style="color:white ; background-color:white" *ngIf="seatobj.seatLabel == ''">
-          &nbsp; </div>
-        <div placement="top"
-          [ngClass]="{ 'seat-item' : true , 'seat-available' : seatobj.status == 'available' ,'seat-booked' : seatobj.status == 'booked' ,'seat-unavailable' : seatobj.status == 'unavailable' }"
-          (click)="selectSeat(seatobj)"
-          *ngIf="(seatobj.status == 'available' || seatobj.status == 'booked' )&& seatobj.seatLabel != ''">
-          {{seatobj.seatNo}}</div>
-
-        <div tooltip="Seat not available" placement="top" [ngClass]="{ 'seat-item' : true , 'seat-unavailable' : true }"
-          *ngIf="seatobj.status == 'unavailable' && seatobj.seatLabel != ''">
-          <mat-icon>directions_car</mat-icon>
+      <div *ngFor="let seatobj of seats; let i = index">
+        <div *ngIf="seatobj != null">
+          <button mat-button [ngClass]="{'seat-available': seatobj.isAvailable}" (click)="bookParking(seatobj.id)">
+            {{seatobj.number}}
+          </button>
+          <button mat-button [ngClass]="{'seat-unavailable': !seatobj.isAvailable}" [disabled]="!seatobj.isAvailable" (click)="bookParking(seatobj.id)">
+            <mat-icon>directions_car</mat-icon>
+          </button>
         </div>
       </div>
-    </div>
   </div>
 </div>

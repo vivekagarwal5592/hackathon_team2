@@ -27,4 +27,12 @@ export class ParkingLotService {
   getAllParkingSlotsForLot(parkingLotId: Number): Observable<ParkingSlot[]> {
     return this.http.get<ParkingSlot[]>(environment.baseUrl + "/api/parkingLot/" + parkingLotId + "/parkingSlots");
   }
+
+  parkVehicle(userId: Number, parkingSlotId: Number, engagedFor: Number) {
+    return this.http.put(environment.baseUrl + "/api/parkingSlot/parkVehicle", {userId: userId, parkingSlotId: parkingSlotId, engagedFor: engagedFor})
+  }
+
+  unParkVehicle(parkingSlotId: Number) {
+    return this.http.put(environment.baseUrl + "/api/parkingSlot/unParkVehicle", {parkingSlotId: parkingSlotId})
+  }
 }

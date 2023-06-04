@@ -1,5 +1,5 @@
 export interface LoginResponse {
-    access_token: String;
-    refresh_token: String;
+    ACCESS_TOKEN: String;
+    REFRESH_TOKEN: String;
     error?: String;
 }
