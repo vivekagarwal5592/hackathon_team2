@@ -46,7 +46,12 @@ export class ParkingSlotComponent implements OnInit {
   ngOnInit(): void {
     //Process a simple bus layout
     this.userStateService.getUserDetails().subscribe(res => {
-      this.userId =  res.id;
+      if (res == null || res.id == null) {
+        this.userId = localStorage.getItem("userId");
+      } else {
+        this.userId =  res.id;
+      }
+      
     })
     console.log("-------- : " + this.parkingLotId)
     this.parkingLotService.getAllParkingSlotsForLot(this.parkingLotId)

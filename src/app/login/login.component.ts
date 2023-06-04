@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
         var res = this.getDecodedAccessToken(String(each.ACCESS_TOKEN));
         this.userStateService.setIsUserLoggedIn(true);
         this.userStateService.setUserDetails(res.user);
+        localStorage.setItem("userId", res.user.id);
         this.router.navigateByUrl("/parking-lot");
       }
     },
